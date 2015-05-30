@@ -31,7 +31,7 @@ labels_train = labels_train[:len(labels_train)/100]
 
 #########################################################
 ### your code goes here ###
-clfr = SVC(kernel= "rbf")
+clfr = SVC(C= 10000.0, kernel= "rbf")
 
 t0 = time()
 clfr.fit(features_train, labels_train)
