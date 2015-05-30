@@ -25,8 +25,8 @@ from sklearn.metrics import accuracy_score
 features_train, features_test, labels_train, labels_test = preprocess()
 
 ## Smaller data fit.
-##features_train = features_train[:len(features_train)/100]
-##labels_train = labels_train[:len(labels_train)/100]
+features_train = features_train[:len(features_train)/100]
+labels_train = labels_train[:len(labels_train)/100]
 
 
 #########################################################
@@ -42,7 +42,16 @@ pred = clfr.predict(features_test)
 print "predicting time: ", round(time() - t1, 3), "s"
 
 acc = accuracy_score(pred, labels_test)
+print "The accuracy is", round(acc, 5)
 
-print acc
+result1 = pred[10]
+print "The 10th email's author is", ("Sarah " if result1 == 0 else "Chris")
+
+result2 = pred[26]
+print "The 26th email's author is", ("Sarah " if result2 == 0 else "Chris")
+
+result3 = pred[50]
+print "The 50th email's author is", ("Sarah " if result3 == 0 else "Chris")
+
 
 #########################################################
