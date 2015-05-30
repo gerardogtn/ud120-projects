@@ -26,12 +26,12 @@ features_train, features_test, labels_train, labels_test = preprocess()
 
 ## Smaller data fit.
 features_train = features_train[:len(features_train)/100]
-labels_train = labels_train[:len(labels_train)/100] 
+labels_train = labels_train[:len(labels_train)/100]
 
 
 #########################################################
 ### your code goes here ###
-clfr = SVC(kernel= "linear")
+clfr = SVC(kernel= "rbf")
 
 t0 = time()
 clfr.fit(features_train, labels_train)
