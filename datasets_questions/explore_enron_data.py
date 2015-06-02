@@ -138,6 +138,15 @@ def printKeysItems():
     for k, v in enron_data.iteritems():
         print k, "bonus: ", v["bonus"], "salary: ", v["salary"]
 
+def printBandits():
+    print "The bandits are: "
+    for k, v in enron_data.iteritems():
+        currentBonus = v["bonus"]
+        currentSalary = v["salary"]
+        if (k != "TOTAL" and currentBonus != "NaN" and currentSalary != "NaN" and (currentBonus >6000000 or currentSalary > 1000000)):
+            print k, "with bonus: ", currentBonus, "and salary: ", currentSalary
+
+
 ## Main function.
 if __name__ == '__main__':
-    printKeysItems()
+    printBandits()
