@@ -122,11 +122,22 @@ def percentPeopleWithoutFinancialDataAndPOI():
 
     print "The percent of people of interest without financial data is: ", npwfdap
 
+def largestBonus():
+    maxBonus = 0
+    person = ""
+
+    for k, v in enron_data.iteritems():
+        currentBonus = v["bonus"]
+        if (currentBonus > maxBonus and currentBonus != "NaN" and k != "TOTAL"):
+            maxBonus = currentBonus
+            person = k
+
+    print "The person with the largest bonus is: ", person, "with a bonus of: ", maxBonus
+
+def printKeysItems():
+    for k, v in enron_data.iteritems():
+        print k, "bonus: ", v["bonus"], "salary: ", v["salary"]
+
 ## Main function.
 if __name__ == '__main__':
-    #printKeys()
-    numberPeopleWithEmailData()
-    numberPeopleWithSalaryData()
-    percentPeopleWithoutFinancialData()
-    percentPeopleWithoutFinancialDataAndPOI()
-    peopleOfInterest()
+    printKeysItems()
