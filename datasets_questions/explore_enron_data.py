@@ -136,7 +136,7 @@ def largestBonus():
 
 def printKeysItems():
     for k, v in enron_data.iteritems():
-        print k, "bonus: ", v["bonus"], "salary: ", v["salary"]
+        print k, "exercised stock options: ", v["exercised_stock_options"]
 
 def printBandits():
     print "The bandits are: "
@@ -146,7 +146,30 @@ def printBandits():
         if (k != "TOTAL" and currentBonus != "NaN" and currentSalary != "NaN" and (currentBonus >6000000 or currentSalary > 1000000)):
             print k, "with bonus: ", currentBonus, "and salary: ", currentSalary
 
+def maxExercisedStock():
+    maxOrMin(lambda a, b: a>b, "exercised_stock_options", 0, True)
+
+def minExercisedStock():
+    maxOrMin(lambda a, b: a<b, "exercised_stock_options", 10000000, False)
+
+## (Number, Number -> Bool) String Number Bool-> void
+def maxOrMin(fn, feature, start, isMax):
+    output = start
+    p = ""
+
+    try:
+        for k, v in enron_data.iteritems():
+            currentValue = v[feature]
+            if currentValue != "NaN" and fn(currentValue, output):
+                output = currentValue
+                p = k
+        print "The ", ("maximum " if isMax else "minimum"), feature, "is: ", output, "by: ", p
+    except KeyError:
+        print "The key was not found"
+
+def removeTotal():
+    enron_data.pop("TOTAL", 0)
 
 ## Main function.
 if __name__ == '__main__':
-    printBandits()
+    removeTotal()
