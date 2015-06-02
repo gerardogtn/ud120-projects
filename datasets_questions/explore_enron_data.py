@@ -170,6 +170,13 @@ def maxOrMin(fn, feature, start, isMax):
 def removeTotal():
     enron_data.pop("TOTAL", 0)
 
+def upper(a, b):
+    return a > b
+
+def lower(a, b):
+    return a < b
 ## Main function.
 if __name__ == '__main__':
     removeTotal()
+    maxOrMin(upper, "salary", 0, True)
+    maxOrMin(lower, "salary", 1000000, False)
