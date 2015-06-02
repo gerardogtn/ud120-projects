@@ -47,7 +47,7 @@ def peopleOfInterest():
 def stockValue(user):
     try:
         totalStock = enron_data[user]["restricted_stock"]
-        totalStock = totalStock + enron_data[user]["exercised_stock_options"]
+        totalStock = totalStock + (0 if enron_data[user]["exercised_stock_options"] == "NaN" else enron_data[user]["exercised_stock_options"])
         print "The total stock value of ", user, "is: ", totalStock
     except KeyError:
         print "The user:", user, " was not found in the dataset"
@@ -79,12 +79,54 @@ def printKeys():
     for k, v in sorted(enron_data.iteritems()):
         print k
 
+## void -> void
+## Prints the amount of people in the dataset with a quantified salary
+def numberPeopleWithSalaryData():
+    npwsd = 0
+    for k, v in enron_data.iteritems():
+        if (v["salary"] != "NaN"):
+            npwsd = npwsd + 1
+
+    print "The amount of people that we have salary data of is: ", npwsd
+
+## void -> void
+## Prints the amount of people with a known e-mail address
+def numberPeopleWithEmailData():
+    npwed = 0
+    for k, v in enron_data.iteritems():
+        if (v["email_address"] != "NaN"):
+            npwed = npwed + 1
+
+    print "The amount of people that we have email data of is: ", npwed
+
+## void -> void
+## Prints the percent of people without financial data:
+def percentPeopleWithoutFinancialData():
+    npwfd = 0
+    for k, v in enron_data.iteritems():
+        if (v["total_payments"] == "NaN"):
+            npwfd = npwfd + 1
+
+    npwfd = float(npwfd) / len(enron_data)
+
+    print "The percent of people without financial data is: ", npwfd
+
+def percentPeopleWithoutFinancialDataAndPOI():
+    npwfdap = 0
+    for k, v in enron_data.iteritems():
+        if (v["total_payments"] == "NaN" and v["poi"]):
+            npwfd = npwfd + 1
+
+    print "The amount of people of interest without financial data is: ", npwfdap
+    npwfdap = float(npwfdap) / len(enron_data)
+
+    print "The percent of people of interest without financial data is: ", npwfdap
+
 ## Main function.
 if __name__ == '__main__':
-    ##printKeys()
-    peopleInDataset()
-    featuresInDataSet()
+    #printKeys()
+    numberPeopleWithEmailData()
+    numberPeopleWithSalaryData()
+    percentPeopleWithoutFinancialData()
+    percentPeopleWithoutFinancialDataAndPOI()
     peopleOfInterest()
-    stockValue("PRENTICE JAMES")
-    emailsToPOI("COLWELL WESLEY")
-    exercisedStockOptions("SKILLING JEFFREY K")
