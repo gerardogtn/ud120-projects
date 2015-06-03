@@ -29,7 +29,8 @@ def peopleInDataset():
 ## Dictionary -> void
 ## Prints the amount of keys in the dataset.
 def featuresInDataSet():
-    print "The amount of features in the dataset is: ", len(enron_data.values()[0])
+    print "The amount of features in the dataset is: ",\
+          len(enron_data.values()[0])
 
 ## Dictionary -> void
 ## Prints the amount of people in enron_data that have a positive value for the
@@ -46,9 +47,17 @@ def peopleOfInterest():
 ## TotalStock = restrictedStock + exercisedStockOptions
 def stockValue(user):
     try:
-        totalStock = enron_data[user]["restricted_stock"]
-        totalStock = totalStock + (0 if enron_data[user]["exercised_stock_options"] == "NaN" else enron_data[user]["exercised_stock_options"])
+        restrictedStock = enron_data[user]["restricted_stock"]
+        exercisedStock = enron_data[user]["exercised_stock_options"]
+
+        if (restrictedStock == "NaN"):
+            restrictedStock = 0
+        if (exercisedStock == "NaN"):
+            exercisedStock = 0
+
+        totalStock = restrictedStock + exercisedStock
         print "The total stock value of ", user, "is: ", totalStock
+
     except KeyError:
         print "The user:", user, " was not found in the dataset"
 
@@ -59,7 +68,9 @@ def stockValue(user):
 def emailsToPOI(user):
     try:
         amountOfEmails = enron_data[user]["from_this_person_to_poi"]
-        print "The amount of emails sent from: ", user, "to POIs is: ", amountOfEmails
+        print "The amount of emails sent from: ", user, "to POIs is: ", \
+              amountOfEmails
+
     except KeyError:
         print "The user:", user, " was not found in the dataset"
 
@@ -146,7 +157,8 @@ def printBandits():
     for k, v in enron_data.iteritems():
         currentBonus = v["bonus"]
         currentSalary = v["salary"]
-        if (currentBonus != "NaN" and currentSalary != "NaN" and (currentBonus >6000000 or currentSalary > 1000000)):
+        if (currentBonus != "NaN" and currentSalary != "NaN" and
+                (currentBonus >6000000 or currentSalary > 1000000)):
             print k, "with bonus: ", currentBonus, "and salary: ", currentSalary
 
 ## Void -> void
@@ -172,7 +184,9 @@ def maxOrMin(fn, feature, start, isMax):
             if currentValue != "NaN" and fn(currentValue, output):
                 output = currentValue
                 p = k
-        print "The ", ("maximum " if isMax else "minimum"), feature, "is: ", output, "by: ", p
+        print "The ", ("maximum " if isMax else "minimum"), feature, \
+              "is: ", output, "by: ", p
+
     except KeyError:
         print "The key was not found"
 
@@ -193,5 +207,4 @@ def lower(a, b):
 ## Main function.
 if __name__ == '__main__':
     removeTotal()
-    maxOrMin(upper, "salary", 0, True)
-    maxOrMin(lower, "salary", 1000000, False)
+    stockValue("SKILLING JEFFREY K")
