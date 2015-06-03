@@ -111,6 +111,8 @@ def percentPeopleWithoutFinancialData():
 
     print "The percent of people without financial data is: ", npwfd
 
+## void -> void
+## Print the percent of people that are poi and have financial data available.
 def percentPeopleWithoutFinancialDataAndPOI():
     npwfdap = 0
     for k, v in enron_data.iteritems():
@@ -122,22 +124,23 @@ def percentPeopleWithoutFinancialDataAndPOI():
 
     print "The percent of people of interest without financial data is: ", npwfdap
 
+## void -> void
+## Prints the person with the maximum bonus and its respective value.
 def largestBonus():
-    maxBonus = 0
-    person = ""
+    maxOrMin(lambda a, b: a>b, "bonus", 0, True)
 
-    for k, v in enron_data.iteritems():
-        currentBonus = v["bonus"]
-        if (currentBonus > maxBonus and currentBonus != "NaN" and k != "TOTAL"):
-            maxBonus = currentBonus
-            person = k
+## String -> void
+## Print all the people in the dataset and its value for feature.
+def printKeysItems(feature):
+    try:
+        for k, v in enron_data.iteritems():
+            print k, feature, v[feature]
 
-    print "The person with the largest bonus is: ", person, "with a bonus of: ", maxBonus
+    except KeyError:
+        print "The key ", feature, "is NOT a valid one"
 
-def printKeysItems():
-    for k, v in enron_data.iteritems():
-        print k, "exercised stock options: ", v["exercised_stock_options"]
-
+## void -> void
+## Print the people at the dataset with a bonus > 6 mill or salary > 1 mill
 def printBandits():
     print "The bandits are: "
     for k, v in enron_data.iteritems():
@@ -146,13 +149,19 @@ def printBandits():
         if (currentBonus != "NaN" and currentSalary != "NaN" and (currentBonus >6000000 or currentSalary > 1000000)):
             print k, "with bonus: ", currentBonus, "and salary: ", currentSalary
 
+## Void -> void
+## Print the person with the maximum exercised stock
 def maxExercisedStock():
     maxOrMin(lambda a, b: a>b, "exercised_stock_options", 0, True)
 
+## Void -> Void
+## Print the person with the minimum exercised stock
 def minExercisedStock():
     maxOrMin(lambda a, b: a<b, "exercised_stock_options", 10000000, False)
 
 ## (Number, Number -> Bool) String Number Bool-> void
+## Filter the enron_data to print the person with the max or min value
+## for a particular feature
 def maxOrMin(fn, feature, start, isMax):
     output = start
     p = ""
@@ -167,13 +176,18 @@ def maxOrMin(fn, feature, start, isMax):
     except KeyError:
         print "The key was not found"
 
-
+## Void -> Void
+## Remove the TOTAL dataset from enron_data
 def removeTotal():
     enron_data.pop("TOTAL", 0)
 
+## Number Number -> Bool
+## Returns true if the first number is greater than the second one. False otherwise
 def upper(a, b):
     return a > b
 
+## Number Number -> Bool
+## Returns true if the first number is less than the second one. False otherwise
 def lower(a, b):
     return a < b
 ## Main function.
