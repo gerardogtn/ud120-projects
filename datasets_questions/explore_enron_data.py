@@ -143,7 +143,7 @@ def printBandits():
     for k, v in enron_data.iteritems():
         currentBonus = v["bonus"]
         currentSalary = v["salary"]
-        if (k != "TOTAL" and currentBonus != "NaN" and currentSalary != "NaN" and (currentBonus >6000000 or currentSalary > 1000000)):
+        if (currentBonus != "NaN" and currentSalary != "NaN" and (currentBonus >6000000 or currentSalary > 1000000)):
             print k, "with bonus: ", currentBonus, "and salary: ", currentSalary
 
 def maxExercisedStock():
@@ -166,6 +166,7 @@ def maxOrMin(fn, feature, start, isMax):
         print "The ", ("maximum " if isMax else "minimum"), feature, "is: ", output, "by: ", p
     except KeyError:
         print "The key was not found"
+
 
 def removeTotal():
     enron_data.pop("TOTAL", 0)
