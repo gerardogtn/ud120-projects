@@ -7,6 +7,8 @@ import sys
 
 sys.path.append( "../tools/" )
 from parse_out_email_text import parseOutText
+from sklearn.feature_extraction.text import TfidfVectorizer
+from nltk.corpus import stopwords
 
 """
     starter code to process the emails from Sara and Chris to extract
@@ -40,8 +42,8 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
     for path in from_person:
         ### only look at first 200 emails when developing
         ### once everything is working, remove this line to run over full dataset
-        temp_counter += 1
-        if temp_counter < 200:
+        #temp_counter += 1
+        if temp_counter < 50:
             path = os.path.join('..', path[:-1])
             print path
             email = open(path, "r")
@@ -50,10 +52,10 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
             parsedText = parseOutText(email)
             ### use str.replace() to remove any instances of the words
             ### ["sara", "shackleton", "chris", "germani"]
-            parsedText.replace("sara ", "")
-            parsedText.replace("shackleton ", "")
-            parsedText.replace("chris ", "")
-            parsedText.replace("germani ", "")
+            parsedText = parsedText.replace("sara", "")
+            parsedText = parsedText.replace("shackleton", "")
+            parsedText = parsedText.replace("chris", "")
+            parsedText = parsedText.replace("germani", "")
             ### append the text to word_data
             word_data.append(parsedText)
             ### append a 0 to from_data if email is from Sara, and 1 if email is from Chris
@@ -69,7 +71,31 @@ pickle.dump( word_data, open("your_word_data.pkl", "w") )
 pickle.dump( from_data, open("your_email_authors.pkl", "w") )
 
 
+## Stopwords
+sw = stopwords.words("english")
 
+## String -> Bool
+## Return true if word is an element of sw. False otherwise.
+def isStopWord(word):
+    for stopword in sw:
+        if (stopword == word):
+            return True
 
+    return False
+
+## Filter word_data for stopwords.
+#word_data_filtered = []
+#for words in word_data:
+#    entry = ""
+#
+#    for word in words.split():
+#        if (not isStopWord(word)):
+#            entry = entry + word + " "
+#
+#    word_data_filtered.append(entry)
 
 ### in Part 4, do TfIdf vectorization here
+tfidf = TfidfVectorizer(stop_words="english")
+tfidf.fit_transform(word_data)
+
+print "There are: ", len(tfidf.get_feature_names()), "words in the data"
