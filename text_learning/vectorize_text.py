@@ -97,5 +97,7 @@ def isStopWord(word):
 ### in Part 4, do TfIdf vectorization here
 tfidf = TfidfVectorizer(stop_words="english")
 tfidf.fit_transform(word_data)
+data_vocabulary = tfidf.get_feature_names()
 
-print "There are: ", len(tfidf.get_feature_names()), "words in the data"
+print "Word no. 34597 on data vocabulary is: ", data_vocabulary[34597]
+print "There are: ", len(data_vocabulary), "words in the data"
